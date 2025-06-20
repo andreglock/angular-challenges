@@ -40,13 +40,40 @@ export class AppComponent {
   gpu = model(false);
 
   constructor() {
-    /* 
-      Explain for your junior team mate why this bug occurs ...
-    */
     effect(() => {
-      if (this.drive() || this.ram() || this.gpu()) {
+      if (this.drive()) {
+        alert('Price increased!');
+      }
+    });
+    effect(() => {
+      if (this.ram()) {
+        alert('Price increased!');
+      }
+    });
+    effect(() => {
+      if (this.gpu()) {
         alert('Price increased!');
       }
     });
   }
 }
+
+/*
+* Gregor's solution
+chosenAddons = computed(() => +this.drive() + +this.ram() + +this.gpu());
+
+  isIncreased = linkedSignal({
+    source: () => this.chosenAddons(),
+    computation: (current, previous) => current > (previous?.source ?? 0),
+  });
+
+  constructor() {
+  effect(() => {
+    this.chosenAddons();
+
+    if (this.isIncreased()) {
+      alert('Price increased!');
+    }
+  });
+  }
+* */
